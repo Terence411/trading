@@ -33,7 +33,7 @@ Owns the lifecycle of the IBKR API connection. Built around the `IBConnection` c
 
 **`self.ib`** — the underlying `ib_insync.IB` instance. All future phases that need to make API calls (market data, orders) should access this via the `IBConnection` object.
 
-`get_account_summary()` currently displays values in GBP, USD, and EUR. To add another currency, extend `currency_symbols` in that method.
+`get_account_summary()` displays the following fields (in GBP, USD, or EUR): Net Liquidation Value, Total Cash Value, Buying Power, Available Funds, Excess Liquidity. To add more tags, extend `tags_to_show`. To add another currency, extend `currency_symbols`.
 
 ---
 

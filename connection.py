@@ -54,11 +54,13 @@ class IBConnection:
         logger.info(f"Account: {account_id}")
 
         currency_symbols = {"USD": "$", "GBP": "£", "EUR": "€"}
-        tags_to_show = {"NetLiquidation", "TotalCashValue", "BuyingPower"}
+        tags_to_show = {"NetLiquidation", "TotalCashValue", "BuyingPower", "AvailableFunds", "ExcessLiquidity"}
         for av in account_values:
             if av.tag in tags_to_show and av.currency in currency_symbols:
                 label = av.tag.replace("NetLiquidation", "Net Liquidation Value") \
                               .replace("TotalCashValue", "Total Cash Value") \
-                              .replace("BuyingPower", "Buying Power")
+                              .replace("BuyingPower", "Buying Power") \
+                              .replace("AvailableFunds", "Available Funds") \
+                              .replace("ExcessLiquidity", "Excess Liquidity")
                 symbol = currency_symbols[av.currency]
                 logger.info(f"  {label}: {symbol}{float(av.value):,.2f}")
