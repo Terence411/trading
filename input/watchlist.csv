@@ -1,0 +1,21 @@
+symbol,exchange,currency,sector,notes
+LLOY,SMART,GBP,Banking,Lloyds Banking Group — very high volume, moves 2-5% daily
+BARC,SMART,GBP,Banking,Barclays — high volume, reacts strongly to macro news
+HSBA,SMART,GBP,Banking,HSBC — large cap, strong daily swings
+NWG,SMART,GBP,Banking,NatWest Group — volatile, high retail volume
+BP.,SMART,GBP,Oil & Gas,BP plc — high liquidity, oil price sensitive
+SHEL,SMART,GBP,Oil & Gas,Shell — most liquid LSE stock by value
+GLEN,SMART,GBP,Mining,Glencore — commodity driven, very volatile
+RIO,SMART,GBP,Mining,Rio Tinto — iron ore/copper exposure, large daily swings
+ANTO,SMART,GBP,Mining,Antofagasta — copper pure-play, high volatility
+FRES,SMART,GBP,Mining,Fresnillo — silver/gold miner, highly volatile
+AZN,SMART,GBP,Pharma,AstraZeneca — large cap, reacts to clinical trial news
+GSK,SMART,GBP,Pharma,GSK — pharmaceutical, steady volume with occasional spikes
+IAG,SMART,GBP,Travel,International Airlines Group — airline, very volatile
+VOD,SMART,GBP,Telecoms,Vodafone — high volume, sensitive to rates and M&A news
+LGEN,SMART,GBP,Financials,Legal & General — financial services, macro sensitive
+RR.,SMART,GBP,Industrials,Rolls-Royce — extremely volatile, very high retail interest
+OCDO,SMART,GBP,Consumer,Ocado — tech/grocery hybrid, one of the most volatile FTSE stocks
+PRU,SMART,GBP,Financials,Prudential — insurance/Asia exposure, reacts sharply to macro
+AAL,SMART,GBP,Mining,Anglo American — diversified miner, large daily swings
+DGE,SMART,GBP,Consumer,Diageo — spirits giant, moves on consumer sentiment and FX

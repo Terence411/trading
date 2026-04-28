@@ -59,3 +59,4 @@ Add **both** IPs to IB Gateway's Trusted IP Addresses list, then restart IB Gate
 | 2 | Done | Fetch delayed price snapshot for LSE watchlist (SHEL, HSBA, BP., AZN, LLOY) |
 | 3 | Done | Structure snapshot data into a pandas DataFrame |
 | 4 | Done | Interactive buy/sell market orders against paper account |
+| 5 | Done | ORB strategy — 15-min candles, automated buy/sell with profit target, stop loss, MA breakdown, EOD exit |

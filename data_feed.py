@@ -1,25 +1,23 @@
+import csv
 import logging
+import os
+import pandas as pd
 from ib_insync import IB, Stock
 
 logger = logging.getLogger(__name__)
 
-WATCHLIST = [
-    ("SHEL", "SMART", "GBP"),  # Shell
-    ("HSBA", "SMART", "GBP"),  # HSBC
-    ("BP.",  "SMART", "GBP"),  # BP plc (dot suffix distinguishes LSE listing from NYSE)
-    ("AZN",  "SMART", "GBP"),  # AstraZeneca
-    ("LLOY", "SMART", "GBP"),  # Lloyds
-    ("ULVR", "SMART", "GBP"),  # Unilever
-    ("RIO",  "SMART", "GBP"),  # Rio Tinto
-    ("GLEN", "SMART", "GBP"),  # Glencore
-    ("DGE",  "SMART", "GBP"),  # Diageo
-    ("BATS", "SMART", "GBP"),  # British American Tobacco
-    ("GSK",  "SMART", "GBP"),  # GSK
-    ("VOD",  "SMART", "GBP"),  # Vodafone
-    ("BARC", "SMART", "GBP"),  # Barclays
-    ("NWG",  "SMART", "GBP"),  # NatWest Group
-    ("LGEN", "SMART", "GBP"),  # Legal & General
-]
+_WATCHLIST_FILE = os.path.join(os.path.dirname(__file__), "input", "watchlist.csv")
+
+
+def load_watchlist() -> list[tuple[str, str, str]]:
+    watchlist = []
+    with open(_WATCHLIST_FILE, newline="") as f:
+        for row in csv.DictReader(f):
+            watchlist.append((row["symbol"], row["exchange"], row["currency"]))
+    return watchlist
+
+
+WATCHLIST = load_watchlist()
 
 
 class DataFeed:
@@ -58,3 +56,35 @@ class DataFeed:
             self.ib.cancelMktData(contract)
 
         return records
+
+    def get_candles(self, symbol: str) -> pd.DataFrame:
+        contract = Stock(symbol, "SMART", "GBP")
+        qualified = self.ib.qualifyContracts(contract)
+        if not qualified:
+            logger.warning(f"Could not qualify contract for {symbol} — no candles fetched.")
+            return pd.DataFrame()
+
+        bars = self.ib.reqHistoricalData(
+            qualified[0],
+            endDateTime="",
+            durationStr="1 D",
+            barSizeSetting="15 mins",
+            whatToShow="TRADES",
+            useRTH=True,
+            formatDate=1,
+        )
+        if not bars:
+            logger.warning(f"No historical bars returned for {symbol}.")
+            return pd.DataFrame()
+
+        df = pd.DataFrame([{
+            "date":   b.date,
+            "open":   b.open,
+            "high":   b.high,
+            "low":    b.low,
+            "close":  b.close,
+            "volume": b.volume,
+        } for b in bars])
+        df["date"] = pd.to_datetime(df["date"])
+        df.set_index("date", inplace=True)
+        return df

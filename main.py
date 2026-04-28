@@ -22,7 +22,7 @@ def main():
     store.display()
 
     trader = Trader(conn.ib)
-    Strategy().run_interactive_loop(store, trader)
+    Strategy().run_interactive_loop(store, trader, feed)
 
     conn.disconnect()
 

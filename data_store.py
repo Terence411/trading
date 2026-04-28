@@ -4,6 +4,7 @@ import pandas as pd
 class DataStore:
     def __init__(self):
         self.df = pd.DataFrame()
+        self.candles: dict[str, pd.DataFrame] = {}
 
     def store_snapshot(self, records: list[dict]):
         self.df = (
@@ -12,6 +13,22 @@ class DataStore:
             .astype({"last": "Float64", "bid": "Float64", "ask": "Float64",
                      "close": "Float64", "volume": "Int64"})
         )
+
+    def store_candles(self, symbol: str, df: pd.DataFrame):
+        self.candles[symbol] = df
+
+    def get_opening_range(self, symbol: str) -> tuple[float, float] | None:
+        df = self.candles.get(symbol)
+        if df is None or len(df) < 2:
+            return None
+        first_two = df.iloc[:2]
+        return float(first_two["high"].max()), float(first_two["low"].min())
+
+    def get_moving_average(self, symbol: str, period: int = 20) -> float | None:
+        df = self.candles.get(symbol)
+        if df is None or len(df) < period:
+            return None
+        return float(df["close"].rolling(period).mean().iloc[-1])
 
     def display(self):
         if self.df.empty:
@@ -25,7 +42,6 @@ class DataStore:
                 return f"{val:,}"
             return f"{val:,.2f}"
 
-        col_widths = {"last": 10, "bid": 10, "ask": 10, "close": 10, "volume": 12}
         header = f"{'':8}  {'last':>10}  {'bid':>10}  {'ask':>10}  {'close':>10}  {'volume':>12}"
         print(f"\n{header}")
         print("-" * len(header))

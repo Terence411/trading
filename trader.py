@@ -98,6 +98,18 @@ class Trader:
         )
         print()
 
+    def close_all_positions(self):
+        positions = self.ib.positions()
+        if not positions:
+            logger.info("No open positions to close.")
+            return
+        for pos in positions:
+            symbol = pos.contract.symbol
+            qty = int(abs(pos.position))
+            action = "SELL" if pos.position > 0 else "BUY"
+            logger.info(f"EOD close: {action} {qty} {symbol}")
+            self.place_order(symbol, action, qty)
+
     def place_order(self, symbol: str, action: str, quantity: int) -> dict:
         contract = Stock(symbol, "SMART", "GBP")
         qualified = self.ib.qualifyContracts(contract)
