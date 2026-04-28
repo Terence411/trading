@@ -39,19 +39,38 @@ Owns the lifecycle of the IBKR API connection. Built around the `IBConnection` c
 
 ## `main.py`
 
-Entry point. Instantiates `IBConnection`, runs the connection check, prints the account summary, then disconnects. Serves as the Phase 1 verification script — will grow into the main application loop in later phases.
+Entry point. Connects to IB Gateway, prints the account summary, fetches a price snapshot for the watchlist, then disconnects.
 
 ---
 
-## `data_feed.py` *(Phase 2 — not yet implemented)*
+## `data_feed.py`
 
-Will handle live price streaming for a watchlist of stock symbols using `ib_insync` market data subscriptions (`reqMktData` / `reqTickByTick`).
+Fetches a one-time price snapshot for a fixed watchlist of LSE stocks.
+
+**`WATCHLIST`** — module-level list of `(symbol, exchange, currency)` tuples. Edit this to change which stocks are tracked.
+
+### `DataFeed`
+
+| Method | Description |
+|---|---|
+| `__init__(ib)` | Takes the `ib_insync.IB` instance from `IBConnection.ib` |
+| `get_snapshot()` | Requests delayed market data for all watchlist symbols, waits 6 seconds, prints a formatted price table, then cancels subscriptions |
+
+Uses `reqMarketDataType(3)` (delayed, 15–20 min) by default — free for all accounts. Change to `1` for live data if a market data subscription is active. Fields displayed: Last, Bid, Ask, Close, Volume. Missing values (outside market hours) are shown as `—`.
 
 ---
 
-## `data_store.py` *(Phase 3 — not yet implemented)*
+## `data_store.py`
 
-Will manage in-memory storage of price data using `pandas` DataFrames — tick data, OHLCV bars, and any derived columns needed by the strategy.
+Owns the pandas DataFrame that holds the current price snapshot. Other modules (strategy, trader) read from `DataStore.df` directly.
+
+### `DataStore`
+
+| Method / Attribute | Description |
+|---|---|
+| `df` | The underlying `pd.DataFrame`, indexed by symbol with columns: `last`, `bid`, `ask`, `close`, `volume` |
+| `store_snapshot(records)` | Takes the `list[dict]` returned by `DataFeed.get_snapshot()` and builds the DataFrame |
+| `display()` | Prints a formatted table of the DataFrame. NaN values shown as `—` |
 
 ---
 
@@ -71,13 +90,13 @@ Will execute orders against the paper trading account via `ib_insync` order plac
 
 ```
 main.py
-  └── connection.py
-        └── config.py
-              └── .env
+  ├── connection.py
+  │     └── config.py
+  │           └── .env
+  └── data_feed.py
 
 (future)
 main.py
-  ├── data_feed.py   ──► connection.py
   ├── data_store.py  ──► data_feed.py
   ├── strategy.py    ──► data_store.py
   └── trader.py      ──► connection.py, strategy.py

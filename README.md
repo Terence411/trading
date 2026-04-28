@@ -56,6 +56,6 @@ Add **both** IPs to IB Gateway's Trusted IP Addresses list, then restart IB Gate
 | Phase | Status | Description |
 |---|---|---|
 | 1 | Done | Connect to IB Gateway and verify account |
-| 2 | Planned | Stream live prices for a watchlist |
-| 3 | Planned | Store price data in pandas DataFrames |
+| 2 | Done | Fetch delayed price snapshot for LSE watchlist (SHEL, HSBA, BP., AZN, LLOY) |
+| 3 | Done | Structure snapshot data into a pandas DataFrame |
 | 4 | Planned | Manual buy/sell order execution |
