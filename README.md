@@ -58,4 +58,4 @@ Add **both** IPs to IB Gateway's Trusted IP Addresses list, then restart IB Gate
 | 1 | Done | Connect to IB Gateway and verify account |
 | 2 | Done | Fetch delayed price snapshot for LSE watchlist (SHEL, HSBA, BP., AZN, LLOY) |
 | 3 | Done | Structure snapshot data into a pandas DataFrame |
-| 4 | Planned | Manual buy/sell order execution |
+| 4 | Done | Interactive buy/sell market orders against paper account |

@@ -1,6 +1,8 @@
 from connection import IBConnection
 from data_feed import DataFeed
 from data_store import DataStore
+from strategy import Strategy
+from trader import Trader
 
 
 def main():
@@ -18,6 +20,9 @@ def main():
     store = DataStore()
     store.store_snapshot(records)
     store.display()
+
+    trader = Trader(conn.ib)
+    Strategy().run_interactive_loop(store, trader)
 
     conn.disconnect()
 

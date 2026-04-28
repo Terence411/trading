@@ -74,15 +74,31 @@ Owns the pandas DataFrame that holds the current price snapshot. Other modules (
 
 ---
 
-## `strategy.py` *(Phase 4 — not yet implemented)*
+## `strategy.py`
 
-Will contain the buy/sell signal logic. Phase 4 starts with manual order invocation (user-triggered), with the option to add automated signal generation later.
+Runs the interactive prompt loop. Validates user input and delegates order execution to `Trader`.
+
+### `Strategy`
+
+| Method | Description |
+|---|---|
+| `run_interactive_loop(trader)` | Loops: prompts for action (buy/sell/quit), symbol, and quantity. Validates each input then calls `trader.place_order()`. |
+
+Valid symbols are derived from `WATCHLIST` in `data_feed.py`. Input is case-insensitive.
 
 ---
 
-## `trader.py` *(Phase 4 — not yet implemented)*
+## `trader.py`
 
-Will execute orders against the paper trading account via `ib_insync` order placement APIs. Works alongside `strategy.py` — strategy generates the signal, trader executes it.
+Executes orders against the IBKR paper trading account.
+
+### `Trader`
+
+| Method | Returns | Description |
+|---|---|---|
+| `place_order(symbol, action, quantity)` | `dict` | Qualifies the contract, creates a `MarketOrder`, places it via `ib.placeOrder()`, waits 2 seconds, and logs the status. Returns `{"status", "filled", "avg_fill_price"}`. |
+
+Outside market hours, `status` will be `Submitted` or `PreSubmitted` — the order is queued and will execute when the LSE opens.
 
 ---
 

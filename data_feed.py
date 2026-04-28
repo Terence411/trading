@@ -9,6 +9,16 @@ WATCHLIST = [
     ("BP.",  "SMART", "GBP"),  # BP plc (dot suffix distinguishes LSE listing from NYSE)
     ("AZN",  "SMART", "GBP"),  # AstraZeneca
     ("LLOY", "SMART", "GBP"),  # Lloyds
+    ("ULVR", "SMART", "GBP"),  # Unilever
+    ("RIO",  "SMART", "GBP"),  # Rio Tinto
+    ("GLEN", "SMART", "GBP"),  # Glencore
+    ("DGE",  "SMART", "GBP"),  # Diageo
+    ("BATS", "SMART", "GBP"),  # British American Tobacco
+    ("GSK",  "SMART", "GBP"),  # GSK
+    ("VOD",  "SMART", "GBP"),  # Vodafone
+    ("BARC", "SMART", "GBP"),  # Barclays
+    ("NWG",  "SMART", "GBP"),  # NatWest Group
+    ("LGEN", "SMART", "GBP"),  # Legal & General
 ]
 
 

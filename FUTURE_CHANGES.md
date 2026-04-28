@@ -49,4 +49,4 @@ Things to address when moving from paper/development to a live production setup.
 | Phase | Description |
 |---|---|
 | **Phase 3** | ~~Store streaming price data in pandas DataFrames~~ ✅ Done |
-| **Phase 4** | Manual buy/sell order execution against the paper account |
+| **Phase 4** | ~~Manual buy/sell order execution against the paper account~~ ✅ Done |
